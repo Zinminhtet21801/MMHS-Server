@@ -18,13 +18,16 @@ const adminsSchema = new mongoose.Schema({
 //     publish_date : Date
 // })
 
-// const classesSchema = new mongoose.Schema({
-//     class_name : {type:String, required:true},
-//     teacher_name : {type:String, required:true},
-//     starting_date : {type:Date, required:true},
-//     ending_date : {type:Date, required:true},
-//     details : String
-// })
+const classesSchema = new mongoose.Schema({
+  courseImageUpload : {type:[String], required:false},
+  courseName : {type:String, required:true},
+  teacher : {type:String, required:true},
+  startingDate : {type:Date, required:true},
+  endingDate : {type:Date, required:true},
+  studentLimit : {type:Number, required:true},
+  fee : {type:String, required:true},
+  details : String
+})
 
 // const eventsSchema = new mongoose.Schema({
 //     event_name : {type:String, required:true},
@@ -49,13 +52,17 @@ const studentsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  date : {
+    type : Date,
+    default : Date.now
+  }
 });
 // class_id: { type: String, required: true },
 
 const adminsModel = new mongoose.model("admin", adminsSchema);
 
 // const booksModel = new mongoose.Model("book", booksSchema)
-// const classesModel = new mongoose.Model("class", classesSchema)
+const classesModel = new mongoose.model("class", classesSchema);
 // const eventsModel = new mongoose.Model("event", eventsSchema)
 const studentsModel = new mongoose.model("student", studentsSchema);
-module.exports = { adminsModel, studentsModel };
+module.exports = { adminsModel, studentsModel, classesModel };
