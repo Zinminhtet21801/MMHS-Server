@@ -14,6 +14,7 @@ app.use(express.urlencoded({limit: '10mb', extended: true}))
 app.use("/", require("./routes/register"))
 app.use("/", require("./routes/courses"))
 app.use("/apply", require("./routes/applyStudent"))
+app.use("/getcourse", require("./routes/getCourses"))
 
 moongoose.connect(process.env.DB_CONNECT_URL);
 

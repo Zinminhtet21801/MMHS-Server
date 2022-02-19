@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const adminsSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+<<<<<<< HEAD
+=======
+  gender: { type: String, required: true },
+>>>>>>> 3b797be23765ad19709d6126f931ad54faa5f2db
   email: { type: String, required: true },
   phone: { type: Number },
   role: String,
@@ -52,17 +56,12 @@ const studentsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date : {
-    type : Date,
-    default : Date.now
-  }
 });
 // class_id: { type: String, required: true },
 
 const adminsModel = new mongoose.model("admin", adminsSchema);
-
-// const booksModel = new mongoose.Model("book", booksSchema)
+// const booksModel = new mongoose.model("book", booksSchema)
 const classesModel = new mongoose.model("class", classesSchema);
-// const eventsModel = new mongoose.Model("event", eventsSchema)
+// const eventsModel = new mongoose.model("event", eventsSchema)
 const studentsModel = new mongoose.model("student", studentsSchema);
 module.exports = { adminsModel, studentsModel, classesModel };
