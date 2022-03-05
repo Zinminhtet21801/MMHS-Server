@@ -57,8 +57,4 @@ router.post("/modifyCourse", async (req, res) => {
     console.log(e);
   }
 });
-<<<<<<< HEAD
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 3b797be23765ad19709d6126f931ad54faa5f2db
