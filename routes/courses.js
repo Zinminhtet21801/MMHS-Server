@@ -32,10 +32,12 @@ router.post("/modifyCourse", async (req, res) => {
     if (courseCheck.length == 0) {
       let image = [];
       for (let i = 0; i < courseImageUpload.fileList.length; i++) {
-        const img = await cloudinary.uploader.upload(
-          courseImageUpload.fileList[i].thumbUrl,
-          (error, result) => result.secure_url
-        ).then((value) => image.push(value.secure_url));
+        const img = await cloudinary.uploader
+          .upload(
+            courseImageUpload.fileList[i].thumbUrl,
+            (error, result) => result.secure_url
+          )
+          .then((value) => image.push(value.secure_url));
       }
 
       const classes = new classesModel({
@@ -49,7 +51,7 @@ router.post("/modifyCourse", async (req, res) => {
         teacher: teacher,
       });
       console.log("haha");
-      await classes.save()
+      await classes.save();
       return res.json({ message: "Success:Course created successfully!" });
     }
     return res.json({ message: "Error:Course already exists!" });
