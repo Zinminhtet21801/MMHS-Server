@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 const cors = require("cors");
 const moongoose = require("mongoose");
 const { verifyStudentData } = require("./verifyData");
@@ -15,11 +17,28 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb", extended: true }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
+passport.use(
+  new LocalStrategy(function (email, password, done) {
+    adminsModel.findOne({ email: email }, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false);
+      }
+      if (!user.verifyPassword(password)) {
+        return done(null, false);
+      }
+      return done(null, user);
+    });
+  })
+);
 app.use("/", require("./routes/register"));
 app.use("/", require("./routes/courses"));
 app.use("/apply", require("./routes/applyStudent"));
 app.use("/", require("./routes/getCourses"));
 app.use("/", require("./routes/getStudentCount"));
+app.use("/login", require("./routes/login"));
 
 moongoose.connect(process.env.DB_CONNECT_URL);
 
