@@ -20,15 +20,15 @@ const adminsSchema = new mongoose.Schema({
 // })
 
 const classesSchema = new mongoose.Schema({
-  courseImageUpload : {type:[String], required:false},
-  courseName : {type:String, required:true},
-  teacher : {type:String, required:true},
-  startingDate : {type:Date, required:true},
-  endingDate : {type:Date, required:true},
-  studentLimit : {type:Number, required:true},
-  fee : {type:String, required:true},
-  details : String
-})
+  courseImageUpload: { type: [String], required: false },
+  courseName: { type: String, required: true },
+  teacher: { type: String, required: true },
+  startingDate: { type: Date, required: true },
+  endingDate: { type: Date, required: true },
+  studentLimit: { type: Number, required: true },
+  fee: { type: String, required: true },
+  details: String,
+});
 
 // const eventsSchema = new mongoose.Schema({
 //     event_name : {type:String, required:true},
@@ -56,9 +56,9 @@ const studentsSchema = new mongoose.Schema({
 });
 // class_id: { type: String, required: true },
 
-const adminsModel = new mongoose.model("admin", adminsSchema);
+const adminsModel = mongoose.model("admin", adminsSchema);
 // const booksModel = new mongoose.model("book", booksSchema)
-const classesModel = new mongoose.model("class", classesSchema);
+const classesModel = mongoose.model("class", classesSchema);
 // const eventsModel = new mongoose.model("event", eventsSchema)
-const studentsModel = new mongoose.model("student", studentsSchema);
+const studentsModel = mongoose.model("student", studentsSchema);
 module.exports = { adminsModel, studentsModel, classesModel };
