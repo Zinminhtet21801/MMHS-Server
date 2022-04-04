@@ -68,18 +68,16 @@ router.post("/addCourse", async (req, res) => {
         studentLimit: studentLimit,
         teacher: teacher,
       });
-      console.log("haha");
       await classes.save();
       return res.json({ message: "Success:Course created successfully!" });
     }
-    return res.json({ message: "Error:Course already exists!" });
+    return res.status(400).json({ message: "Error:Course already exists!" });
   } catch (e) {
     console.log(e);
   }
 });
 
 router.put("/editCourse/:id", async (req, res) => {
-  console.log(req.params.id);
   const { id } = req.params;
   const {
     courseImageUpload,
@@ -123,12 +121,11 @@ router.put("/editCourse/:id", async (req, res) => {
           teacher: teacher,
         }
       );
-      console.log(image);
       return res
         .status(200)
         .json({ message: "Success:Course updated successfully!" });
     }
-    return res.json({ message: "Error:Course already exists!" });
+    return res.status(400).json({ message: "Error:Course already exists!" });
   } catch (e) {
     console.log(e);
   }
@@ -136,10 +133,9 @@ router.put("/editCourse/:id", async (req, res) => {
 
 router.delete("/deleteCourse/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const classes = await classesModel.deleteOne({ _id: ObjectId(id) });
-    return res.json({ message: "Success:Course deleted successfully!" });
+    return res.status(200).json({ message: "Success:Course deleted successfully!" });
   } catch (e) {
     console.log(e);
   }
