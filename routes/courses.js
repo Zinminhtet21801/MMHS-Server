@@ -2,21 +2,22 @@ const router = require("express").Router();
 const { verifyClassData } = require("../verifyData");
 const { classesModel } = require("../database/Models");
 const cloudinary = require("cloudinary").v2;
-const { ObjectID, ObjectId } = require("mongodb");
+const { ObjectId } = require("mongodb");
+const { checkLoggedIn } = require("../middlewares/checkLoggedIn");
 
 async function uploadToCloudinary(courseImageUpload) {
   const imagesToBeUploaded = courseImageUpload?.fileList?.filter(
     (image) => image?.name
   );
   let imagesToNotBeUploaded = [];
-  for (i = 0; i < courseImageUpload?.fileList?.length; i++) {
-    if (courseImageUpload?.fileList[i]?.url) {
-      imagesToNotBeUploaded.push(courseImageUpload?.fileList[i]?.url);
+  for (i = 0; i < courseImageUpload?.length; i++) {
+    if (courseImageUpload[i]?.url) {
+      imagesToNotBeUploaded.push(courseImageUpload[i]?.url);
     }
   }
 
   let images = [];
-  for (let i = 0; i < imagesToBeUploaded.length; i++) {
+  for (let i = 0; i < imagesToBeUploaded?.length; i++) {
     const img = await cloudinary.uploader
       .upload(
         imagesToBeUploaded[i].thumbUrl,
@@ -27,7 +28,7 @@ async function uploadToCloudinary(courseImageUpload) {
   return [...images, ...imagesToNotBeUploaded];
 }
 
-router.post("/addCourse", async (req, res) => {
+router.post("/addCourse", checkLoggedIn, async (req, res) => {
   const {
     courseImageUpload,
     courseName,
@@ -77,7 +78,7 @@ router.post("/addCourse", async (req, res) => {
   }
 });
 
-router.put("/editCourse/:id", async (req, res) => {
+router.put("/editCourse/:id", checkLoggedIn, async (req, res) => {
   const { id } = req.params;
   const {
     courseImageUpload,
@@ -103,7 +104,7 @@ router.put("/editCourse/:id", async (req, res) => {
   }
   try {
     const courseCheck = await classesModel
-      .findOne({ courseName: courseName })
+      .findOne({ _id: ObjectId(id) })
       .exec();
     if (courseCheck) {
       let image;
@@ -135,7 +136,9 @@ router.delete("/deleteCourse/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const classes = await classesModel.deleteOne({ _id: ObjectId(id) });
-    return res.status(200).json({ message: "Success:Course deleted successfully!" });
+    return res
+      .status(200)
+      .json({ message: "Success:Course deleted successfully!" });
   } catch (e) {
     console.log(e);
   }
