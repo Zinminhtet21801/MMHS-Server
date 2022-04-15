@@ -10,20 +10,29 @@ async function uploadToCloudinary(courseImageUpload) {
     (image) => image?.name
   );
   let imagesToNotBeUploaded = [];
-  for (i = 0; i < courseImageUpload?.length; i++) {
-    if (courseImageUpload[i]?.url) {
-      imagesToNotBeUploaded.push(courseImageUpload[i]?.url);
+  for (i = 0; i < courseImageUpload?.fileList?.length; i++) {
+    if (courseImageUpload?.fileList[i]?.url) {
+      imagesToNotBeUploaded.push({
+        url : courseImageUpload?.fileList[i]?.url,
+        public_id : courseImageUpload?.fileList[i]?.public_id,
+      });
     }
   }
+
 
   let images = [];
   for (let i = 0; i < imagesToBeUploaded?.length; i++) {
     const img = await cloudinary.uploader
-      .upload(
-        imagesToBeUploaded[i].thumbUrl,
-        (error, result) => result.secure_url
-      )
-      .then((value) => images.push(value.secure_url));
+      .upload(imagesToBeUploaded[i]?.image?.image, (error, result) => {
+        return result.secure_url;
+      })
+      .then((value) =>
+        images.push({
+          url: value.secure_url,
+          public_id: value.public_id,
+        })
+      );
+    // .then((value) => images.push(value.secure_url));
   }
   return [...images, ...imagesToNotBeUploaded];
 }
@@ -102,6 +111,7 @@ router.put("/editCourse/:id", checkLoggedIn, async (req, res) => {
   if (!classData) {
     return res.status(400).json({ message: "Error:Wrong type of Data!" });
   }
+
   try {
     const courseCheck = await classesModel
       .findOne({ _id: ObjectId(id) })
