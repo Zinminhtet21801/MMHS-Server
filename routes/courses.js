@@ -21,7 +21,11 @@ async function uploadToCloudinary(courseImageUpload) {
     const img = await cloudinary.uploader
       .upload(
         imagesToBeUploaded[i].thumbUrl,
-        (error, result) => result.secure_url
+        { eager: [{ width: 444, height: 262, crop: "scale" }] },
+        (error, result) => {
+          console.log(error, result);
+          return result.eager.secure_url;
+        }
       )
       .then((value) => images.push(value.secure_url));
   }
