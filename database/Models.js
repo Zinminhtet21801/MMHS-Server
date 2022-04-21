@@ -20,7 +20,12 @@ const adminsSchema = new mongoose.Schema({
 // })
 
 const classesSchema = new mongoose.Schema({
-  courseImageUpload: { type: [String], required: false },
+  courseImageUpload: [
+    {
+      url: String,
+      public_id: String,
+    },
+  ],
   courseName: { type: String, required: true },
   teacher: { type: String, required: true },
   startingDate: { type: Date, required: true },
