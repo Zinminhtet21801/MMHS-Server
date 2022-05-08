@@ -41,9 +41,10 @@ router.post("/", async (req, res) => {
             );
             res
               .cookie("token", token, {
-                domain: "localhost",
                 path: "/",
                 httpOnly: true,
+                sameSite: "None",
+                secure: true,
               })
               .status(200)
               .json({

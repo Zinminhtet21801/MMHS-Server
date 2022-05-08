@@ -13,12 +13,11 @@ async function uploadToCloudinary(courseImageUpload) {
   for (i = 0; i < courseImageUpload?.fileList?.length; i++) {
     if (courseImageUpload?.fileList[i]?.url) {
       imagesToNotBeUploaded.push({
-        url : courseImageUpload?.fileList[i]?.url,
-        public_id : courseImageUpload?.fileList[i]?.public_id,
+        url: courseImageUpload?.fileList[i]?.url,
+        public_id: courseImageUpload?.fileList[i]?.public_id,
       });
     }
   }
-
 
   let images = [];
   for (let i = 0; i < imagesToBeUploaded?.length; i++) {
