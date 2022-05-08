@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
               },
               process.env.JWT_SECRET,
               {
-                expiresIn: "1h",
+                // expiresIn: "1h",
               }
             );
             res
@@ -57,6 +57,30 @@ router.post("/", async (req, res) => {
     console.log(e);
   }
 });
+
+function generateAccessToken(email) {
+  return jwt.sign(
+    {
+      email: email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+}
+
+function generateRefreshToken(email) {
+  return jwt.sign(
+    {
+      email: email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+}
 
 module.exports = router;
 
