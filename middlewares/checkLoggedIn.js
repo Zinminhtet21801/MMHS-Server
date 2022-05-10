@@ -17,7 +17,6 @@ module.exports = {
           const refreshedToken = generateRefreshToken(decoded.email);
           req.email = decoded.email;
           res.cookie("token", refreshedToken, {
-            domain: "localhost",
             path: "/",
             httpOnly: true,
           });

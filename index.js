@@ -23,12 +23,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
 app.use(helmet());
 app.use(express.json({ limit: "50mb", extended: true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -39,7 +39,6 @@ app.use(cookieParser());
 //     name: "session-id",
 //     secret: config.SESSION_SECRET,
 //     // expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-//     domain: "localhost",
 //     keys: [config.COOKIE_SECRET_KEY_1, config.COOKIE_SECRET_KEY_2],
 //   })
 // );
